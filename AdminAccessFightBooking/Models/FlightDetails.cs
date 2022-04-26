@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,5 +24,16 @@ namespace AdminAccessFlightBooking.Models
         public string AirlineStatus { get; set; }
         public int NoOfRows { get; set; }
         public string Meal { get; set; }
+        public List<Discount> Discounts { get; set; }
+    }
+
+    public class Discount
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
+        public string CouponCode { get; set; }
+        public int Amount { get; set; }
+        public string FlightDetailsFlightNumber { get; set; }
     }
 }

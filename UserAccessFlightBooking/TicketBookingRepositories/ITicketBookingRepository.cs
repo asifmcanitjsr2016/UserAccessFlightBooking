@@ -11,7 +11,7 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         List<Flights> GetFlights(SearchFlight searchFlight);
         bool BookFlight(BookingHistory bookingHistory);        
         List<BookingHistory> TicketBookingHistory(string UserEmailID);
-        Passengers BookedTicketDetails(string PNR);
+        BookingHistory BookedTicketDetails(string PNR);
         BookingHistory PrintTicket(string PNR);
         bool CancelTicket(string PNR);
     }

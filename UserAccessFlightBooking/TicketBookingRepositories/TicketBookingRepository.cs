@@ -11,146 +11,138 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
 {
     public class TicketBookingRepository : ITicketBookingRepository
     {
-        //private readonly TicketBookingContext _dbContext;
-        private List<FlightDetails> flights;
-        private List<BookingHistory> BookingHistory;
+        private readonly TicketBookingContext _dbContext;        
 
-        //public TicketBookingRepository(TicketBookingContext dbcontext)
-        public TicketBookingRepository()
+        public TicketBookingRepository(TicketBookingContext dbcontext)
+        //public TicketBookingRepository()
 
         {
-            BookingHistory = new List<BookingHistory> {
-                 new BookingHistory()
-                 {
-                      PassengerDetails=
-                         new Passengers()
-                         {
-                              Doj=new DateTime(2022,04,22),
-                              FlightNumber="ABC001",
-                               FromPlace="Kolkata",
-                                ToPlace="New Delhi",
-                                 PNRNumber ="1298767564",
-                                  PassengerDetls=new List<Passenger>
-                                  {
-                                      new Passenger()
-                                      {
-                                       Age=24,
-                                        ClassType="Business",
-                                         Gender="Male",
-                                          Name="Asif",
-                                           OptForMeal="None",
-                                            SeatNo=23
-                                      }
-                                  }
-                                  
-                         },                                               
-                      User=new UserDetails
-                      {
-                           UserEmailID="asif777hussain@gmail.com",
-                            UserName="Asif Hussain"
-                      }                      
-                 },
-                 new BookingHistory()
-                 {
-                      PassengerDetails=new Passengers()
-                         {
-                              Doj=new DateTime(2022,04,25),
-                              FlightNumber="ABC001",
-                               FromPlace="Kolkata",
-                                ToPlace="New Delhi",
-                                 PNRNumber ="1298767565",
-                                  PassengerDetls=new List<Passenger>
-                                  {
-                                  new Passenger()
-                                  {
-                                       Age=30,
-                                        ClassType="Non Business",
-                                         Gender="Male",
-                                          Name="Aman",
-                                           OptForMeal="None",
-                                            SeatNo=72
-                                  }
-                                  }
+            //    BookingHistory = new List<BookingHistory> {
+            //         new BookingHistory()
+            //         {
 
-                         },
-                      User=new UserDetails()
-                      {
-                           UserEmailID="asif777hussain@gmail.com",
-                            UserName="Asif Hussain"
-                      }
-                 }
-            };
-
-            flights = new List<FlightDetails> 
-            {
-                new FlightDetails
-                {
-                    FlightNumber = "ABC001",
-                    Airline = "Air India",
-                    AirlineStatus = "Open",
-                    EndDateTime = new DateTime(2030, 1, 1),
-                    FromPlace = "Kolkata",
-                    ToPlace = "New Delhi",
-                    InstrumentUsed = "A320",
-                    Price = 5600,
-                    ScheduledDays = "Daily",
-                    StartDateTime = new DateTime(2022, 4, 12),
-                    TotalBusinessClassSeat = 20,
-                    TotalNonBusinessClassSeat = 80,
-                    Meal="Veg,Non-Veg,None",
-                    NoOfRows=25
-
-                },
-                new FlightDetails
-                {
-                    FlightNumber = "ABC002",
-                    Airline = "Indigo",
-                    AirlineStatus = "Open",
-                    EndDateTime = new DateTime(2030, 1, 1),
-                    FromPlace = "New Delhi",
-                    ToPlace = "Kolkata",
-                    InstrumentUsed = "A320 neo",
-                    Price = 5600,
-                    ScheduledDays = "Daily",
-                    StartDateTime = new DateTime(2022, 4, 12),
-                    TotalBusinessClassSeat = 20,
-                    TotalNonBusinessClassSeat = 80,
-                    Meal="Veg,Non-Veg,None",
-                    NoOfRows=25
-
-                },
-                new FlightDetails
-                {
-                    FlightNumber = "ABC003",
-                    Airline = "Air Asia",
-                    AirlineStatus = "Open",
-                    EndDateTime = new DateTime(2030, 1, 1),
-                    FromPlace = "New Delhi",
-                    ToPlace = "Mumbai",
-                    InstrumentUsed = "A321",
-                    Price = 4000,
-                    ScheduledDays = "Daily",
-                    StartDateTime = new DateTime(2022, 4, 12),
-                    TotalBusinessClassSeat = 20,
-                    TotalNonBusinessClassSeat = 80,
-                    Meal="Veg,None",
-                    NoOfRows=25
-
-                }
-                };
-                
+            //                      Doj=new DateTime(2022,04,22),
+            //                      FlightNumber="ABC001",
+            //                       FromPlace="Kolkata",
+            //                        ToPlace="New Delhi",
+            //                         PNRNumber ="1298767564",
+            //                          PassengerDetls=new List<Passenger>
+            //                          {
+            //                              new Passenger()
+            //                              {
+            //                               Age=24,
+            //                                ClassType="Business",
+            //                                 Gender="Male",
+            //                                  Name="Asif",
+            //                                   OptForMeal="None",
+            //                                    SeatNo=23
+            //                              }
+            //                          },
 
 
-            //_dbContext = dbcontext;
+            //                   UserID="asif777hussain@gmail.com",
+            //                    UserName="Asif Hussain"
+
+            //         },
+            //         new BookingHistory()
+            //         {
+
+            //                      Doj=new DateTime(2022,04,25),
+            //                      FlightNumber="ABC001",
+            //                       FromPlace="Kolkata",
+            //                        ToPlace="New Delhi",
+            //                         PNRNumber ="1298767565",
+            //                          PassengerDetls=new List<Passenger>
+            //                          {
+            //                          new Passenger()
+            //                          {
+            //                               Age=30,
+            //                                ClassType="Non Business",
+            //                                 Gender="Male",
+            //                                  Name="Aman",
+            //                                   OptForMeal="None",
+            //                                    SeatNo=72
+            //                          }
+            //                          },
+
+
+            //                   UserID="asif777hussain@gmail.com",
+            //                    UserName="Asif Hussain"
+
+            //         }
+            //    };
+
+            //    flights = new List<FlightDetails> 
+            //    {
+            //        new FlightDetails
+            //        {
+            //            FlightNumber = "ABC001",
+            //            Airline = "Air India",
+            //            AirlineStatus = "Open",
+            //            EndDateTime = new DateTime(2030, 1, 1),
+            //            FromPlace = "Kolkata",
+            //            ToPlace = "New Delhi",
+            //            InstrumentUsed = "A320",
+            //            Price = 5600,
+            //            ScheduledDays = "Daily",
+            //            StartDateTime = new DateTime(2022, 4, 12),
+            //            TotalBusinessClassSeat = 20,
+            //            TotalNonBusinessClassSeat = 80,
+            //            Meal="Veg,Non-Veg,None",
+            //            NoOfRows=25
+
+            //        },
+            //        new FlightDetails
+            //        {
+            //            FlightNumber = "ABC002",
+            //            Airline = "Indigo",
+            //            AirlineStatus = "Open",
+            //            EndDateTime = new DateTime(2030, 1, 1),
+            //            FromPlace = "New Delhi",
+            //            ToPlace = "Kolkata",
+            //            InstrumentUsed = "A320 neo",
+            //            Price = 5600,
+            //            ScheduledDays = "Daily",
+            //            StartDateTime = new DateTime(2022, 4, 12),
+            //            TotalBusinessClassSeat = 20,
+            //            TotalNonBusinessClassSeat = 80,
+            //            Meal="Veg,Non-Veg,None",
+            //            NoOfRows=25
+
+            //        },
+            //        new FlightDetails
+            //        {
+            //            FlightNumber = "ABC003",
+            //            Airline = "Air Asia",
+            //            AirlineStatus = "Open",
+            //            EndDateTime = new DateTime(2030, 1, 1),
+            //            FromPlace = "New Delhi",
+            //            ToPlace = "Mumbai",
+            //            InstrumentUsed = "A321",
+            //            Price = 4000,
+            //            ScheduledDays = "Daily",
+            //            StartDateTime = new DateTime(2022, 4, 12),
+            //            TotalBusinessClassSeat = 20,
+            //            TotalNonBusinessClassSeat = 80,
+            //            Meal="Veg,None",
+            //            NoOfRows=25
+
+            //        }
+            //        };
+
+
+
+            _dbContext = dbcontext;
         }
-        public Passengers BookedTicketDetails(string PNR)
+        public BookingHistory BookedTicketDetails(string PNR)
         {
             try
             {
-                var pass = BookingHistory.Where(x => x.PassengerDetails.PNRNumber.Equals(PNR)).ToList();
-                if (pass.Count() > 0)
-                {
-                    return pass.FirstOrDefault().PassengerDetails;
+                var pass = _dbContext.BookingHistory.Include(x=>x.PassengerDetails).ToList();
+                var pass1 = pass.Where(x => x.PassengerDetails.Any(y => y.BookingHistoryPNRNumber.Equals(PNR)));
+                if (pass1.Count() > 0)
+                {                    
+                    return pass1.FirstOrDefault();
                 }                
                 return null;                
             }
@@ -177,10 +169,15 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         {
             try
             {
-                var pnr = GeneratePNR();
+                string pnr = "";
+                do
+                {
+                    pnr = GeneratePNR();
 
-                bookingHistory.PassengerDetails.PNRNumber = pnr;
-                BookingHistory.Add(bookingHistory);
+                } while (_dbContext.BookingHistory.Any(x => x.PNRNumber.Equals(pnr)));                
+
+                bookingHistory.PNRNumber = pnr;                
+                _dbContext.BookingHistory.Add(bookingHistory);
 
                 Save();
                 return true;
@@ -195,9 +192,11 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         public bool CancelTicket(string PNR)
         {
             try
-            {                
-                if(BookingHistory.RemoveAll(x => x.PassengerDetails.PNRNumber.ToLower().Equals(PNR)) > 0)
+            {
+                var data = _dbContext.BookingHistory.FirstOrDefault(x => x.PNRNumber.Equals(PNR));
+                if (data!=null)
                 {
+                    _dbContext.BookingHistory.Remove(data);
                     Save();
                     return true;                    
                 }
@@ -212,12 +211,12 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         public List<Flights> AllFlightsWithAvailablility(SearchFlight searchFlight, List<FlightDetails> allFlights)
         {
             List<Flights> Lflts = new List<Flights>();
-            var allBookedFlight = BookingHistory.Where(x => x.PassengerDetails.Doj == Convert.ToDateTime(searchFlight.date)).ToList();
+            var allBookedFlight = _dbContext.BookingHistory.Where(x => x.Doj == Convert.ToDateTime(searchFlight.date)).ToList();
             int totalAvailability;
             foreach (var flight in allFlights)
             {
 
-                var bookedFlight = allBookedFlight.Where(x => x.PassengerDetails.FlightNumber.ToLower().Equals(flight.FlightNumber.ToLower())).Count();
+                var bookedFlight = allBookedFlight.Where(x => x.FlightNumber.ToLower().Equals(flight.FlightNumber.ToLower())).Count();
                 if (searchFlight.classtype.ToLower().Equals("business"))
                 {
                     totalAvailability = flight.TotalBusinessClassSeat - bookedFlight;
@@ -234,7 +233,8 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
                     ToPlace = searchFlight.toplace,
                     JourneyDate = Convert.ToDateTime(searchFlight.date),
                     Price = flight.Price,
-                    TotalAvaiability = totalAvailability
+                    TotalAvaiability = totalAvailability,
+                    Discounts=flight.Discounts
                 });
             }
             return Lflts;
@@ -246,8 +246,8 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
             try
             {
                 if(searchFlight.way.ToLower().Equals("one way"))
-                {                    
-                    var allFlights = flights.Where(
+                {
+                    var allFlights = _dbContext.FlightDetails.Include(y => y.Discounts).Where(
                     x => x.AirlineStatus.ToLower().Equals("open")
                     && x.FromPlace.ToLower().Equals(searchFlight.fromplace.ToLower())
                     && x.ToPlace.ToLower().Equals(searchFlight.toplace.ToLower())
@@ -258,13 +258,13 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
                 }
                 else
                 {
-                    var list1 = flights.Where(
+                    var list1 = _dbContext.FlightDetails.Include(y=>y.Discounts).Where(
                     x => x.AirlineStatus.ToLower().Equals("open")
                     && x.FromPlace.ToLower().Equals(searchFlight.fromplace.ToLower())
                     && x.ToPlace.ToLower().Equals(searchFlight.toplace.ToLower())
                     && x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.date).ToString("ddd"))).ToList();
 
-                    var list2 = flights.Where(
+                    var list2 = _dbContext.FlightDetails.Include(y=>y.Discounts).Where(
                     x => x.AirlineStatus.ToLower().Equals("open")
                     && x.FromPlace.ToLower().Equals(searchFlight.toplace.ToLower())
                     && x.ToPlace.ToLower().Equals(searchFlight.fromplace.ToLower())
@@ -294,7 +294,7 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         {
             try
             {
-                return BookingHistory.Where(x => x.PassengerDetails.PNRNumber.ToLower().Equals(PNR))?.FirstOrDefault();
+                return _dbContext.BookingHistory.Include(x=>x.PassengerDetails).Where(y => y.PNRNumber.ToLower().Equals(PNR))?.FirstOrDefault();
             }
             catch(Exception ex)
             {
@@ -306,7 +306,7 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         {
             try
             {
-                return BookingHistory.Where(x => x.User.UserEmailID.ToLower().Equals(UserEmailID))?.ToList();
+                return _dbContext.BookingHistory.Include(x=>x.PassengerDetails).Where(y => y.UserID.ToLower().Equals(UserEmailID))?.ToList();
             }
             catch (Exception ex)
             {
@@ -316,7 +316,7 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
 
         public void Save()
         {
-            //_dbContext.SaveChanges();
+            _dbContext.SaveChanges();
         }        
     }
 }

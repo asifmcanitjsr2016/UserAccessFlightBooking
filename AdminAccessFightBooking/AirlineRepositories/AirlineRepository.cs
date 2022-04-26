@@ -1,5 +1,7 @@
 ﻿using AdminAccessFlightBooking.AirlineRepositories;
+using AdminAccessFlightBooking.DBContexts;
 using AdminAccessFlightBooking.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,83 +11,86 @@ namespace AdminAccessFlightBooking.AirlineRepositories
 {
     public class AirlineRepository : IAirlineRepository
     {
-        //private readonly TicketBookingContext _dbContext;
-        private List<FlightDetails> flights;        
 
-        //public TicketBookingRepository(TicketBookingContext dbcontext)
-        public AirlineRepository()
+        //private List<FlightDetails> flights;        
+        private readonly AirlineBookingContext _dbContext;
+
+        public AirlineRepository(AirlineBookingContext dbcontext)
+        //public AirlineRepository()
 
         {            
 
-            flights = new List<FlightDetails>
-            {
-                new FlightDetails
-                {
-                    FlightNumber = "ABC001",
-                    Airline = "Air India",
-                    AirlineStatus = "Open",
-                    EndDateTime = new DateTime(2030, 1, 1),
-                    FromPlace = "Kolkata",
-                    ToPlace = "New Delhi",
-                    InstrumentUsed = "A320",
-                    Price = 5600,
-                    ScheduledDays = "Daily",
-                    StartDateTime = new DateTime(2022, 4, 12),
-                    TotalBusinessClassSeat = 20,
-                    TotalNonBusinessClassSeat = 80,
-                    Meal="Veg,Non-Veg,None",
-                    NoOfRows=25
+            //flights = new List<FlightDetails>
+            //{
+            //    new FlightDetails
+            //    {
+            //        FlightNumber = "ABC001",
+            //        Airline = "Air India",
+            //        AirlineStatus = "Open",
+            //        EndDateTime = new DateTime(2030, 1, 1),
+            //        FromPlace = "Kolkata",
+            //        ToPlace = "New Delhi",
+            //        InstrumentUsed = "A320",
+            //        Price = 5600,
+            //        ScheduledDays = "Daily",
+            //        StartDateTime = new DateTime(2022, 4, 12),
+            //        TotalBusinessClassSeat = 20,
+            //        TotalNonBusinessClassSeat = 80,
+            //        Meal="Veg,Non-Veg,None",
+            //        NoOfRows=25
 
-                },
-                new FlightDetails
-                {
-                    FlightNumber = "ABC002",
-                    Airline = "Indigo",
-                    AirlineStatus = "Open",
-                    EndDateTime = new DateTime(2030, 1, 1),
-                    FromPlace = "New Delhi",
-                    ToPlace = "Kolkata",
-                    InstrumentUsed = "A320 neo",
-                    Price = 5600,
-                    ScheduledDays = "Daily",
-                    StartDateTime = new DateTime(2022, 4, 12),
-                    TotalBusinessClassSeat = 20,
-                    TotalNonBusinessClassSeat = 80,
-                    Meal="Veg,Non-Veg,None",
-                    NoOfRows=25
+            //    },
+            //    new FlightDetails
+            //    {
+            //        FlightNumber = "ABC002",
+            //        Airline = "Indigo",
+            //        AirlineStatus = "Open",
+            //        EndDateTime = new DateTime(2030, 1, 1),
+            //        FromPlace = "New Delhi",
+            //        ToPlace = "Kolkata",
+            //        InstrumentUsed = "A320 neo",
+            //        Price = 5600,
+            //        ScheduledDays = "Daily",
+            //        StartDateTime = new DateTime(2022, 4, 12),
+            //        TotalBusinessClassSeat = 20,
+            //        TotalNonBusinessClassSeat = 80,
+            //        Meal="Veg,Non-Veg,None",
+            //        NoOfRows=25
 
-                },
-                new FlightDetails
-                {
-                    FlightNumber = "ABC003",
-                    Airline = "Air Asia",
-                    AirlineStatus = "Open",
-                    EndDateTime = new DateTime(2030, 1, 1),
-                    FromPlace = "New Delhi",
-                    ToPlace = "Mumbai",
-                    InstrumentUsed = "A321",
-                    Price = 4000,
-                    ScheduledDays = "Daily",
-                    StartDateTime = new DateTime(2022, 4, 12),
-                    TotalBusinessClassSeat = 20,
-                    TotalNonBusinessClassSeat = 80,
-                    Meal="Veg,None",
-                    NoOfRows=25
+            //    },
+            //    new FlightDetails
+            //    {
+            //        FlightNumber = "ABC003",
+            //        Airline = "Air Asia",
+            //        AirlineStatus = "Open",
+            //        EndDateTime = new DateTime(2030, 1, 1),
+            //        FromPlace = "New Delhi",
+            //        ToPlace = "Mumbai",
+            //        InstrumentUsed = "A321",
+            //        Price = 4000,
+            //        ScheduledDays = "Daily",
+            //        StartDateTime = new DateTime(2022, 4, 12),
+            //        TotalBusinessClassSeat = 20,
+            //        TotalNonBusinessClassSeat = 80,
+            //        Meal="Veg,None",
+            //        NoOfRows=25
 
-                }
-                };
+            //    }
+            //    };
 
 
 
-            //_dbContext = dbcontext;
+            _dbContext = dbcontext;
         }        
         public bool AddFlight(FlightDetails flight)
         {
             try
             {
-                if (!flights.Any(x => x.FlightNumber.ToLower().Equals(flight.FlightNumber.ToLower())))
+                
+                if (!_dbContext.FlightDetails.Any(x => x.FlightNumber.ToLower().Equals(flight.FlightNumber.ToLower())))
                 {
-                    flights.Add(flight);
+                    _dbContext.FlightDetails.Add(flight);
+                    Save();
                     return true;
                 }
                 return false;
@@ -100,7 +105,7 @@ namespace AdminAccessFlightBooking.AirlineRepositories
         {
             try
             {
-                return flights.Find(x => x.FlightNumber.ToLower().Equals(flightNumber.ToLower()));
+                return _dbContext.FlightDetails.Include(x => x.Discounts).FirstOrDefault(y => y.FlightNumber.ToLower().Equals(flightNumber.ToLower()));
             }
             catch(Exception ex)
             {
@@ -111,11 +116,18 @@ namespace AdminAccessFlightBooking.AirlineRepositories
         public bool UpdateFlightDetails(string flightnum, FlightDetails flightDetails)
         {
             try
-            {                
-                var flight = flights.Find(x => x.FlightNumber.ToLower().Equals(flightnum.ToLower()));                
-                
-                flights.Remove(flight);                
-                flights.Add(flightDetails);
+            {
+                var flight = _dbContext.FlightDetails.AsNoTracking().Where(x => x.FlightNumber.ToLower().Equals(flightnum.ToLower())).Include(y => y.Discounts).AsNoTracking().FirstOrDefault();
+                flight = flightDetails;
+                _dbContext.Entry(flight).State = EntityState.Modified;
+                foreach (var flit in flight.Discounts)
+                {
+                    if(flit.Id != null)
+                        _dbContext.Entry(flit).State = EntityState.Modified;
+                    else
+                        _dbContext.Entry(flit).State = EntityState.Added;
+                }
+                Save();
                 return true;
 
             }
@@ -129,8 +141,11 @@ namespace AdminAccessFlightBooking.AirlineRepositories
         {
             try
             {
-                if(flights.RemoveAll(x => x.FlightNumber.ToLower().Equals(flightNumber.ToLower())) > 0)
+                var data = _dbContext.FlightDetails.Find(flightNumber);
+                if (data != null)
                 {
+                    _dbContext.FlightDetails.Remove(data);
+                    Save();
                     return true;
                 }
                 return false;
@@ -139,6 +154,10 @@ namespace AdminAccessFlightBooking.AirlineRepositories
             {
                 return false;
             }
-        }        
+        }
+        public void Save()
+        {
+            _dbContext.SaveChanges();
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace UserAccessFlightBooking.Models
         public string FlightName { get; set; } 
         public int Price { get; set; } 
         public DateTime JourneyDate { get; set; } 
-        public int TotalAvaiability { get; set; } 
-    }
+        public int TotalAvaiability { get; set; }
+        public List<Discount> Discounts { get; set; }
+    }    
 }

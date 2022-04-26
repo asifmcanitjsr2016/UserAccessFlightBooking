@@ -34,7 +34,7 @@ namespace UserAccessFlightBooking.Controllers
 
         // GET api/<FlightBookingController>/5
         [HttpGet("ticket")]
-        public Passengers Get(string pnr)
+        public BookingHistory Get(string pnr)
         {
             return _ticketBookingRepository.BookedTicketDetails(pnr);
         }

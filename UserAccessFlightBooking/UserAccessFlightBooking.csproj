@@ -6,7 +6,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220425095249_MigrationV1.cs" />
+    <Compile Remove="Migrations\20220425095249_MigrationV1.Designer.cs" />
+    <Compile Remove="Migrations\20220425102515_MigrationV1.cs" />
+    <Compile Remove="Migrations\20220425102515_MigrationV1.Designer.cs" />
+    <Compile Remove="Migrations\20220425103444_MigrationV1.cs" />
+    <Compile Remove="Migrations\20220425103444_MigrationV1.Designer.cs" />
+    <Compile Remove="Migrations\20220425120558_MigrationV1.cs" />
+    <Compile Remove="Migrations\20220425120558_MigrationV1.Designer.cs" />
+    <Compile Remove="Migrations\20220425122010_MigrationV1.cs" />
+    <Compile Remove="Migrations\20220425122010_MigrationV1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.16" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
   </ItemGroup>

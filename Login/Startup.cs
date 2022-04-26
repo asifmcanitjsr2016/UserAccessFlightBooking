@@ -1,7 +1,9 @@
+using Login.DBContexts;
 using Login.LoginRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +28,8 @@ namespace Login
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IRegisterLoginRepository, RegisterLoginRepository>();
+            services.AddDbContext<LoginContext>(o => o.UseSqlServer(Configuration.GetConnectionString("AirlineConnect")));
+            services.AddTransient<IRegisterLoginRepository, RegisterLoginRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

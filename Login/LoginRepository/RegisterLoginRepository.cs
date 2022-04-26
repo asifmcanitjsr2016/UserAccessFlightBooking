@@ -1,4 +1,5 @@
-﻿using Login.Models;
+﻿using Login.DBContexts;
+using Login.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +9,40 @@ namespace Login.LoginRepository
 {
     public class RegisterLoginRepository : IRegisterLoginRepository
     {
-        private List<UserLoginDetails> users;
+        private readonly LoginContext _dbContext;
 
-        public RegisterLoginRepository()
+        public RegisterLoginRepository(LoginContext loginContext)
         {
-            users = new List<UserLoginDetails> {
-                 new UserLoginDetails()
-                 {
-                      AccountCreated=DateTime.Now,
-                       Age=25,
-                        Gender="Male",
-                         Name="Asif Hussain",
-                          UserID="asif123",
-                          Password="Asif@Hussain123",
-                           UserType="Admin"
-                 },
-                 new UserLoginDetails()
-                 {
-                      AccountCreated=DateTime.Now,
-                       Age=30,
-                        Gender="Male",
-                         Name="Aman Kumar",
-                          UserID="aman1213",
-                          Password="aman@kumar1213",
-                           UserType="User"
-                 }
-            };
+
+            _dbContext = loginContext;
+            //users = new List<UserLoginDetails> {
+            //     new UserLoginDetails()
+            //     {
+            //          AccountCreated=DateTime.Now,
+            //           Age=25,
+            //            Gender="Male",
+            //             Name="Asif Hussain",
+            //              UserID="asif123@gmail.com",
+            //              Password="Asif@Hussain123",
+            //               UserType="Admin"
+            //     },
+            //     new UserLoginDetails()
+            //     {
+            //          AccountCreated=DateTime.Now,
+            //           Age=30,
+            //            Gender="Male",
+            //             Name="Aman Kumar",
+            //              UserID="aman1213@gmail.com",
+            //              Password="aman@kumar1213",
+            //               UserType="User"
+            //     }
+            //};
         }
         public string Login(string userId, string password)
         {
             try
             {
-                return users.Find(x => 
+                return _dbContext.UserLoginDetails.FirstOrDefault(x => 
                 x.UserID.ToLower().Equals(userId.ToLower()) 
                 && x.Password.ToLower().Equals(password.ToLower()))?.UserType;                
                 
@@ -55,9 +58,10 @@ namespace Login.LoginRepository
         {
             try
             {
-                if (!users.Any(x => x.UserID.ToLower().Equals(regDetails.UserID.ToLower())))
+                if (!_dbContext.UserLoginDetails.Any(x => x.UserID.ToLower().Equals(regDetails.UserID.ToLower())))
                 {
-                    users.Add(regDetails);
+                    _dbContext.UserLoginDetails.Add(regDetails);
+                    Save();
                     return true;
                 }
                 else
@@ -70,6 +74,10 @@ namespace Login.LoginRepository
             {
                 return false;
             }
+        }
+        public void Save()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }

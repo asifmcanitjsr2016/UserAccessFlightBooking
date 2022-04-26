@@ -23,5 +23,15 @@ namespace UserAccessFlightBooking.Models
         public string AirlineStatus { get; set; }
         public int NoOfRows { get; set; }
         public string Meal { get; set; }
+        public List<Discount> Discounts { get; set; }
+    }
+
+    public class Discount
+    {
+        
+        public string Id { get; set; }
+        public string CouponCode { get; set; }
+        public int Amount { get; set; }
+        public string FlightDetailsFlightNumber { get; set; }
     }
 }

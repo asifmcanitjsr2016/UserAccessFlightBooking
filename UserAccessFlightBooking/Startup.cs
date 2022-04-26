@@ -28,8 +28,8 @@ namespace UserAccessFlightBooking
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //services.AddDbContext<TicketBookingContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DBConnect")));
-            services.AddSingleton<ITicketBookingRepository, TicketBookingRepository>();
+            services.AddDbContext<TicketBookingContext>(o => o.UseSqlServer(Configuration.GetConnectionString("AirlineConnect")));
+            services.AddTransient<ITicketBookingRepository, TicketBookingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
