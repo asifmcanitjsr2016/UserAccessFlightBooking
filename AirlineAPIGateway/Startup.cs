@@ -41,6 +41,9 @@ namespace AirlineAPIGateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors();
+
             Action<ConfigurationBuilderCachePart> settings = (x) =>
             {
                 x.WithMicrosoftLogging(log =>
@@ -51,6 +54,7 @@ namespace AirlineAPIGateway
 
                 }).WithDictionaryHandle();
             };
+            
             services.AddOcelot(Configuration, settings);
         }
 
@@ -63,6 +67,14 @@ namespace AirlineAPIGateway
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             await app.UseOcelot();
 
