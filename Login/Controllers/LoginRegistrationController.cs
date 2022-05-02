@@ -36,7 +36,7 @@ namespace Login.Controllers
 
         // POST api/<LoginRegistrationController>
         [HttpPost("admin/login")]
-        public string Post([FromBody] UserLogin value)
+        public object Post([FromBody] UserLogin value)
         {
             return _registerLoginRepository.Login(value.username, value.password);
         }

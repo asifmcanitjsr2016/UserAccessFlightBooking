@@ -38,14 +38,24 @@ namespace Login.LoginRepository
             //     }
             //};
         }
-        public string Login(string userId, string password)
+        public object Login(string userId, string password)
         {
             try
             {
-                return _dbContext.UserLoginDetails.FirstOrDefault(x => 
+                var data = _dbContext.UserLoginDetails.FirstOrDefault(x => 
                 x.UserID.ToLower().Equals(userId.ToLower()) 
-                && x.Password.ToLower().Equals(password.ToLower()))?.UserType;                
-                
+                && x.Password.ToLower().Equals(password.ToLower()));
+
+                if (data != null)
+                {
+                    return new
+                    {
+                        username = data.Name,
+                        userid = data.UserID,
+                        usertype = data.UserType
+                    };
+                }
+                return null;                                
             }
             catch(Exception ex)
             {

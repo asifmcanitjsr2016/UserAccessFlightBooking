@@ -9,6 +9,6 @@ namespace Login.LoginRepository
     public interface IRegisterLoginRepository
     {
         bool Registration(UserLoginDetails regDetails);
-        string Login(string userId, string password);
+        object Login(string userId, string password);
     }
 }
