@@ -10,7 +10,7 @@ using UserAccessFlightBooking.DBContexts;
 namespace UserAccessFlightBooking.Migrations
 {
     [DbContext(typeof(TicketBookingContext))]
-    [Migration("20220426143908_UserAccessFlightBookingMigration")]
+    [Migration("20220508111428_UserAccessFlightBookingMigration")]
     partial class UserAccessFlightBookingMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,12 @@ namespace UserAccessFlightBooking.Migrations
                 {
                     b.Property<string>("PNRNumber")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AppliedCoupon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClassType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Doj")
                         .HasColumnType("datetime2");
@@ -51,16 +57,19 @@ namespace UserAccessFlightBooking.Migrations
 
             modelBuilder.Entity("UserAccessFlightBooking.Models.Discount", b =>
                 {
-                    b.Property<string>("CouponCode")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Amount")
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CouponCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FlightDetailsFlightNumber")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CouponCode");
+                    b.HasKey("Id");
 
                     b.HasIndex("FlightDetailsFlightNumber");
 
@@ -125,14 +134,8 @@ namespace UserAccessFlightBooking.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("AppliedCoupon")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("BookingHistoryPNRNumber")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClassType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");

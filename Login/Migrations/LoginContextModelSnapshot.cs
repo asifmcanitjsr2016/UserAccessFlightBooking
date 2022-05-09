@@ -50,7 +50,7 @@ namespace Login.Migrations
                         new
                         {
                             UserID = "asif123@gmail.com",
-                            AccountCreated = new DateTime(2022, 4, 26, 19, 42, 46, 649, DateTimeKind.Local).AddTicks(7866),
+                            AccountCreated = new DateTime(2022, 5, 8, 16, 40, 40, 694, DateTimeKind.Local).AddTicks(2292),
                             Age = 30,
                             Gender = "Male",
                             Name = "Asif Hussain",

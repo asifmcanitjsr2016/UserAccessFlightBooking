@@ -18,6 +18,7 @@ namespace UserAccessFlightBooking.Models
         public List<Passenger> PassengerDetails { get; set; }
         public string FromPlace { get; set; }
         public string ToPlace { get; set; }
+        public string ClassType { get; set; }
         public DateTime Doj { get; set; }
         public string FlightNumber { get; set; }
         public string AppliedCoupon { get; set; }
@@ -31,8 +32,7 @@ namespace UserAccessFlightBooking.Models
         public string BookingHistoryPNRNumber { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
-        public int Age { get; set; }
-        public string ClassType { get; set; }
+        public int Age { get; set; }        
         public string OptForMeal { get; set; }
         public int SeatNo { get; set; }        
     }

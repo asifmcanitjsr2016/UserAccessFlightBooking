@@ -17,6 +17,7 @@ namespace UserAccessFlightBooking.Migrations
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FromPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ToPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClassType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Doj = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FlightNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppliedCoupon = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -42,7 +43,6 @@ namespace UserAccessFlightBooking.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    ClassType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OptForMeal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SeatNo = table.Column<int>(type: "int", nullable: false),
                     BookingHistoryPNRNumber = table.Column<string>(type: "nvarchar(450)", nullable: true)

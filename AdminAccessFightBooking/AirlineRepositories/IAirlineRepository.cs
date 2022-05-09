@@ -11,6 +11,7 @@ namespace AdminAccessFlightBooking.AirlineRepositories
         
         bool AddFlight(FlightDetails flight);
         FlightDetails GetFlightDetails(string flightNumber);
+        List<FlightDetails> GetFlightDetails();
         bool UpdateFlightDetails(string flightnum, FlightDetails flightNumber);
         bool DeleteFlight(string flightNumber);
     }

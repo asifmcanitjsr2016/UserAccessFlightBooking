@@ -27,6 +27,7 @@ namespace AdminAccessFightBooking
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
             services.AddDbContext<AirlineBookingContext>(o => o.UseSqlServer(Configuration.GetConnectionString("AirlineConnect")));
             services.AddTransient<IAirlineRepository, AirlineRepository>();
@@ -41,6 +42,14 @@ namespace AdminAccessFightBooking
             }
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             app.UseAuthorization();
 

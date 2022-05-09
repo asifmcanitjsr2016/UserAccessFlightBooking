@@ -113,6 +113,17 @@ namespace AdminAccessFlightBooking.AirlineRepositories
             }
         }
 
+        public List<FlightDetails> GetFlightDetails()
+        {
+            try
+            {
+                return _dbContext.FlightDetails.Include(x => x.Discounts).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public bool UpdateFlightDetails(string flightnum, FlightDetails flightDetails)
         {
             try
@@ -120,13 +131,16 @@ namespace AdminAccessFlightBooking.AirlineRepositories
                 var flight = _dbContext.FlightDetails.AsNoTracking().Where(x => x.FlightNumber.ToLower().Equals(flightnum.ToLower())).Include(y => y.Discounts).AsNoTracking().FirstOrDefault();
                 flight = flightDetails;
                 _dbContext.Entry(flight).State = EntityState.Modified;
-                foreach (var flit in flight.Discounts)
+                if (flight.Discounts != null)
                 {
-                    if(flit.Id != null)
-                        _dbContext.Entry(flit).State = EntityState.Modified;
-                    else
-                        _dbContext.Entry(flit).State = EntityState.Added;
-                }
+                    foreach (var flit in flight.Discounts)
+                    {
+                        if (flit.Id != null)
+                            _dbContext.Entry(flit).State = EntityState.Modified;
+                        else
+                            _dbContext.Entry(flit).State = EntityState.Added;
+                    }
+                }                
                 Save();
                 return true;
 

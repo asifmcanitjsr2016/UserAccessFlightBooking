@@ -29,10 +29,16 @@ namespace AdminAccessFightBooking.Controllers
         }
 
         // GET api/<AdminAirlineController>/5
-        [HttpGet("airline")]
+        [HttpGet("airline/getFlight")]
         public FlightDetails Get(string flightnumber)
         {
             return _airlineRepository.GetFlightDetails(flightnumber);
+        }
+
+        [HttpGet("airline")]
+        public List<FlightDetails> GetFlights()
+        {
+            return _airlineRepository.GetFlightDetails();
         }
 
         // POST api/<AdminAirlineController>

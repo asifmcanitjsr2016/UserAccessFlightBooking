@@ -211,19 +211,23 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         public List<Flights> AllFlightsWithAvailablility(SearchFlight searchFlight, List<FlightDetails> allFlights)
         {
             List<Flights> Lflts = new List<Flights>();
-            var allBookedFlight = _dbContext.BookingHistory.Where(x => x.Doj == Convert.ToDateTime(searchFlight.date)).ToList();
+            var allBookedFlight = _dbContext.BookingHistory.Include(y=>y.PassengerDetails).Where(x => x.Doj == Convert.ToDateTime(searchFlight.date)).ToList();
             int totalAvailability;
             foreach (var flight in allFlights)
             {
 
-                var bookedFlight = allBookedFlight.Where(x => x.FlightNumber.ToLower().Equals(flight.FlightNumber.ToLower())).Count();
+                var bookedFlight = allBookedFlight.Where(x => x.FlightNumber.ToLower().Equals(flight.FlightNumber.ToLower()));
+
+                var businessCount = bookedFlight.Where(x => x.ClassType.ToLower().Equals("business")).Select(y => y.PassengerDetails.Count).Sum();
+                var economyCount = bookedFlight.Where(x => x.ClassType.ToLower().Equals("economy")).Select(y => y.PassengerDetails.Count).Sum();                
+
                 if (searchFlight.classtype.ToLower().Equals("business"))
                 {
-                    totalAvailability = flight.TotalBusinessClassSeat - bookedFlight;
+                    totalAvailability = flight.TotalBusinessClassSeat - businessCount;
                 }
                 else
                 {
-                    totalAvailability = flight.TotalNonBusinessClassSeat - bookedFlight;
+                    totalAvailability = flight.TotalNonBusinessClassSeat - economyCount;
                 }
                 Lflts.Add(new Flights()
                 {
@@ -251,7 +255,7 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
                     x => x.AirlineStatus.ToLower().Equals("open")
                     && x.FromPlace.ToLower().Equals(searchFlight.fromplace.ToLower())
                     && x.ToPlace.ToLower().Equals(searchFlight.toplace.ToLower())
-                    && x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.date).ToString("ddd"))).ToList();
+                    && (x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.date).ToString("ddd")))).ToList();
 
                     return AllFlightsWithAvailablility(searchFlight, allFlights);
                     
@@ -262,13 +266,13 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
                     x => x.AirlineStatus.ToLower().Equals("open")
                     && x.FromPlace.ToLower().Equals(searchFlight.fromplace.ToLower())
                     && x.ToPlace.ToLower().Equals(searchFlight.toplace.ToLower())
-                    && x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.date).ToString("ddd"))).ToList();
+                    && (x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.date).ToString("ddd")))).ToList();
 
                     var list2 = _dbContext.FlightDetails.Include(y=>y.Discounts).Where(
                     x => x.AirlineStatus.ToLower().Equals("open")
                     && x.FromPlace.ToLower().Equals(searchFlight.toplace.ToLower())
                     && x.ToPlace.ToLower().Equals(searchFlight.fromplace.ToLower())
-                    && x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.returndate).ToString("ddd"))).ToList();
+                    && (x.ScheduledDays.Equals("Daily") || x.ScheduledDays.Contains(Convert.ToDateTime(searchFlight.returndate).ToString("ddd")))).ToList();
 
                     if (list1 != null)
                     {
