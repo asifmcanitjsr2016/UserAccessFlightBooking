@@ -211,7 +211,17 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
         public List<Flights> AllFlightsWithAvailablility(SearchFlight searchFlight, List<FlightDetails> allFlights)
         {
             List<Flights> Lflts = new List<Flights>();
-            var allBookedFlight = _dbContext.BookingHistory.Include(y=>y.PassengerDetails).Where(x => x.Doj == Convert.ToDateTime(searchFlight.date)).ToList();
+            List<BookingHistory> allBookedFlight=new List<BookingHistory>();
+
+            if (!string.IsNullOrEmpty(searchFlight.returndate))
+            {
+                allBookedFlight = _dbContext.BookingHistory.Include(y => y.PassengerDetails).Where(x => x.Doj == Convert.ToDateTime(searchFlight.date) || x.Doj == Convert.ToDateTime(searchFlight.returndate)).ToList();
+            }
+            else
+            {
+                allBookedFlight = _dbContext.BookingHistory.Include(y => y.PassengerDetails).Where(x => x.Doj == Convert.ToDateTime(searchFlight.date)).ToList();
+            }
+
             int totalAvailability;
             foreach (var flight in allFlights)
             {
@@ -229,13 +239,14 @@ namespace UserAccessFlightBooking.TicketBookingRepositories
                 {
                     totalAvailability = flight.TotalNonBusinessClassSeat - economyCount;
                 }
+
                 Lflts.Add(new Flights()
                 {
                     FlightName = flight.Airline,
                     FlightNumber = flight.FlightNumber,
-                    FromPlace = searchFlight.fromplace,
-                    ToPlace = searchFlight.toplace,
-                    JourneyDate = Convert.ToDateTime(searchFlight.date),
+                    FromPlace = flight.FromPlace,
+                    ToPlace = flight.ToPlace,
+                    JourneyDate = flight.FromPlace.ToLower().Equals(searchFlight.fromplace.ToLower()) && flight.ToPlace.ToLower().Equals(searchFlight.toplace.ToLower())?Convert.ToDateTime(searchFlight.date) : Convert.ToDateTime(searchFlight.returndate),
                     Price = flight.Price,
                     TotalAvaiability = totalAvailability,
                     Discounts=flight.Discounts
